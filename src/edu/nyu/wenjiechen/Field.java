@@ -13,14 +13,14 @@ public enum Field {
   LOAD_AVG_5MIN("load_avg_5min"),
   LOAD_AVG_15MIN("load_avg_15min");
   
-  private String fieldName;
+  private String description;
 
-  Field(String fieldName) {
-      this.fieldName = fieldName;
+  Field(String description) {
+      this.description = description;
   }
   
   @Override
   public String toString(){
-    return fieldName;
+    return description;
   }
 }

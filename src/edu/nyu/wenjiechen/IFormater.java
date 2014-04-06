@@ -1,18 +1,38 @@
 package edu.nyu.wenjiechen;
 
+import java.util.List;
 
 public interface IFormater {
 
   /**
    * 
    */
-  public abstract void parse();
+  public IFormater parse();
 
-  public abstract void output(Format format, String outputPath)
+  /**
+   * 
+   * @param format
+   * @param outputPath
+   * @throws IllegalArgumentException
+   */
+  public void output(Format format, String outputPath)
       throws IllegalArgumentException;
 
-  public abstract void filter(Field field, String value);
+  /**
+   * 
+   * @param field
+   * @param value
+   * @return
+   */
+  public IFormater filter(Field field, String value);
 
-  public abstract void sorter(FieldComparator fc);
+  /**
+   * 
+   * @param fieldComparator
+   * @return
+   */
+  public IFormater sort(FieldComparator fieldComparator);
+  
+  public List<Record> getRecords();
 
 }
