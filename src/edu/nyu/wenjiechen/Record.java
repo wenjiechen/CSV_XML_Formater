@@ -27,10 +27,38 @@ public class Record {
     load_avg_15min = fields[LOAD_AVG_15MIN.ordinal()];
   }
 
+  public String getFieldValue(Field field) {
+    switch (field) {
+    case HOST_ID:
+      return host_id;
+    case HOST_NAME:
+      return host_name;
+    case IP_ADDRESS:
+      return ip_address;
+    case LOAD_AVG_15MIN:
+      return load_avg_15min;
+    case LOAD_AVG_1MIN:
+      return load_avg_1min;
+    case LOAD_AVG_5MIN:
+      return load_avg_5min;
+    case OS:
+      return operative_system;
+    case SITE_ID:
+      return site_id;
+    case SITE_LOCATION:
+      return site_location;
+    case SITE_NAME:
+      return site_name;
+    default:
+      return "";
+    }
+  }
+
+  @Override
   public String toString() {
     return new String(site_id + ", " + site_name + ", " + site_location + ", "
         + host_id + ", " + host_name + ", " + ip_address + ", "
         + operative_system + ", " + load_avg_1min + ", " + load_avg_5min + ", "
-        + load_avg_15min +"\n");
+        + load_avg_15min + "\n");
   }
 }

@@ -1,6 +1,9 @@
 package edu.nyu.wenjiechen;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,7 +13,9 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-public class XMLFormater implements AbstractFormater {
+import static edu.nyu.wenjiechen.Order.*;
+
+public class XMLFormater implements IFormater {
   private List<Record> records = new LinkedList<Record>();
   private File file;
 
@@ -52,27 +57,56 @@ public class XMLFormater implements AbstractFormater {
     System.out.println(records);
   }
 
-  public static void main(String[] args) {
-    String path = "coding_exercise\\ipsoft_perf_counters_xml_sample_data.xml";
-    XMLFormater x = new XMLFormater(path);
-    x.parse();
+  @Override
+  public void filter(Field field, String value) {
+    for (Iterator<Record> it = records.iterator(); it.hasNext();) {
+      Record record = it.next();
+      if (!record.getFieldValue(field).equals(value))
+        it.remove();
+    }
+    System.out.println(records);
   }
 
   @Override
-  public void filter() {
-    // TODO Auto-generated method stub
+  public void output(Format format, String outputPath)
+      throws IllegalArgumentException {
+    if (format != Format.CSV)
+      throw new IllegalArgumentException();
 
   }
 
-  @Override
-  public void sorter() {
-    // TODO Auto-generated method stub
+  private Comparator<Record> getComparator(Field field, Order order) {
+    switch (field) {
+    case HOST_ID:
+      break;
+    case HOST_NAME:
+      break;
+    case IP_ADDRESS:
+      break;
+    case LOAD_AVG_15MIN:
+      break;
+    case LOAD_AVG_1MIN:
+      break;
+    case LOAD_AVG_5MIN:
+      break;
+    case OS:
+      break;
+    case SITE_ID:
+      return order == ASC ? FieldComparator.SITE_ID
+          : FieldComparator.SITE_ID_DES;
+    case SITE_LOCATION:
+      break;
+    case SITE_NAME:
+      break;
+    default:
+      break;
 
+    }
   }
 
   @Override
-  public void output(String outputPath) {
-    // TODO Auto-generated method stub
-
+  public void sorter(FieldComparator fc) {
+    Collections.sort(records, fc);
+    System.out.println(records);
   }
 }
