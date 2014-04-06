@@ -2,7 +2,7 @@ package edu.nyu.wenjiechen;
 
 import java.util.Comparator;
 
-public final class FieldComparator implements Comparator<Record> {
+public final class RecordComparator implements Comparator<Record> {
 
   public enum Order {
     ASC, DES,
@@ -11,7 +11,7 @@ public final class FieldComparator implements Comparator<Record> {
   private Field field;
   private Order order;
 
-  public FieldComparator(Field field, Order order) {
+  public RecordComparator(Field field, Order order) {
     this.field = field;
     this.order = order;
   }

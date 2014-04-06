@@ -74,7 +74,7 @@ public class XMLFormater implements IFormater {
   }
 
   @Override
-  public IFormater sort(FieldComparator fieldComparator) {
+  public IFormater sort(RecordComparator fieldComparator) {
     Collections.sort(records, fieldComparator);
     System.out.println(records);
     return this;

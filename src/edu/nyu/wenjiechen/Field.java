@@ -4,7 +4,6 @@ public enum Field {
   SITE_ID("site_id"),
   SITE_NAME("site_name"),
   SITE_LOCATION("site_location"),
-
   HOST_ID("host_id"),
   HOST_NAME("host_name"),
   IP_ADDRESS("ip_address"),
