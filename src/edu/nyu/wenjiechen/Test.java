@@ -2,7 +2,7 @@ package edu.nyu.wenjiechen;
 
 import java.util.Arrays;
 import static edu.nyu.wenjiechen.Field.*;
-import static edu.nyu.wenjiechen.Order.*;
+import static edu.nyu.wenjiechen.FieldComparator.Order.*;
 
 public class Test {
   public static void main(String[] args) {
@@ -10,6 +10,5 @@ public class Test {
     XMLFormater x = new XMLFormater(path);
     x.parse().sort(new FieldComparator(IP_ADDRESS, DES));
     // x.filter(SITE_NAME, "NY-01");
-//    System.out.println(new Integer(100).compareTo(new Integer(100)));
   }
 }
