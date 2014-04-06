@@ -1,6 +1,10 @@
 package edu.nyu.wenjiechen;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,20 +17,26 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 public class XMLFormater implements IFormater {
-  private List<Record> records = new LinkedList<Record>();
-  private File file;
+  private List<Record> records;
+  private String filePath;
+  private String formatedContent;
+  private String csvHeader = "site_id, site_name, site_location, host_id, "
+      + "host_name, ip_address, operative_system, "
+      + "load_avg_1min, load_avg_5min, load_avg_15min";
 
   public XMLFormater(String filePath) {
-    this.file = new File(filePath);
+    this.filePath = filePath;
   }
 
   @Override
   public IFormater parse() {
     String[] fields = new String[Field.values().length];
+    records = new LinkedList<Record>();
     SAXReader reader = new SAXReader();
     Document doc = null;
     try {
-      doc = reader.read(this.file);
+      File file = new File(this.filePath);
+      doc = reader.read(file);
     } catch (DocumentException e) {
       e.printStackTrace();
     }
@@ -51,32 +61,76 @@ public class XMLFormater implements IFormater {
         records.add(new Record(fields));
       }
     }
-    System.out.println(records);
     return this;
   }
 
   @Override
-  public IFormater filter(Field field, String value) {
+  public IFormater filter(Field field, String value)
+      throws IllegalArgumentException {
+    if (Arrays.asList(Field.values()).contains(field) == false) {
+      throw new IllegalArgumentException("Does not have the Field: " + "\""
+          + field + "\"");
+    }
+
     for (Iterator<Record> it = records.iterator(); it.hasNext();) {
       Record record = it.next();
       if (!record.getFieldValue(field).equals(value))
         it.remove();
     }
-    System.out.println(records);
+    return this;
+  }
+
+  private String formatToCSV(Record record) {
+    String newline = System.getProperty("line.separator");
+    return new String(record.site_id + ", " + record.site_name + ", "
+        + record.site_location + ", " + record.host_id + ", "
+        + record.host_name + ", " + record.ip_address + ", "
+        + record.operative_system + ", " + record.load_avg_1min + ", "
+        + record.load_avg_5min + ", " + record.load_avg_15min + newline);
+  }
+
+  public IFormater format(Format format) throws IllegalArgumentException {
+    StringBuilder sb = new StringBuilder();
+    switch (format) {
+    case CSV:
+      sb.append(csvHeader + System.getProperty("line.separator"));
+      for (Record r : records) {
+        sb.append(formatToCSV(r));
+      }
+      formatedContent = sb.toString();
+      break;
+    case XML:
+      throw new IllegalArgumentException("Does not support the format" + "\""
+          + format + "\"");
+    default:
+      throw new IllegalArgumentException("Does not support the format" + "\""
+          + format + "\"");
+    }
     return this;
   }
 
   @Override
-  public void output(Format format, String outputPath)
-      throws IllegalArgumentException {
-    if (format != Format.CSV)
-      throw new IllegalArgumentException();
+  public void output(String filePath) {
+    File file = new File(filePath);
+    BufferedWriter bw;
+    try {
+      if (!file.exists()) {
+        file.createNewFile();
+      }
+      bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+      bw.write(formatedContent);
+      bw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    System.out.println("output successfully!");
   }
 
   @Override
-  public IFormater sort(RecordComparator fieldComparator) {
-    Collections.sort(records, fieldComparator);
-    System.out.println(records);
+  public IFormater sort(List<Record.FieldComparator> comparators) {
+    for (Record.FieldComparator comparator : comparators) {
+      Collections.sort(records, comparator);
+    }
     return this;
   }
 

@@ -9,14 +9,15 @@ public interface IFormater {
    */
   public IFormater parse();
 
+  public IFormater format(Format format) throws IllegalArgumentException;
+
   /**
    * 
    * @param format
    * @param outputPath
    * @throws IllegalArgumentException
    */
-  public void output(Format format, String outputPath)
-      throws IllegalArgumentException;
+  public void output(String outputPath);
 
   /**
    * 
@@ -24,15 +25,16 @@ public interface IFormater {
    * @param value
    * @return
    */
-  public IFormater filter(Field field, String value);
+  public IFormater filter(Field field, String value)
+      throws IllegalArgumentException;;
 
   /**
    * 
    * @param fieldComparator
    * @return
    */
-  public IFormater sort(RecordComparator fieldComparator);
-  
+  public IFormater sort(List<Record.FieldComparator> comparators);
+
   public List<Record> getRecords();
 
 }

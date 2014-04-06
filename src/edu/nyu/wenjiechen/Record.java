@@ -1,6 +1,10 @@
 package edu.nyu.wenjiechen;
 
+import edu.nyu.wenjiechen.Record.FieldComparator.Order;
 import static edu.nyu.wenjiechen.Field.*;
+import static edu.nyu.wenjiechen.Record.FieldComparator.Order.*;
+
+import java.util.Comparator;
 
 public class Record {
   public final String site_id;
@@ -50,8 +54,19 @@ public class Record {
     case SITE_NAME:
       return site_name;
     default:
-      return "";
+      throw new IllegalArgumentException("Does not have the Field: " + "\""
+          + field + "\"");
     }
+  }
+
+  private static FieldComparator[][] fieldComparators = new FieldComparator[Field
+      .values().length][Order.values().length];
+
+  public static FieldComparator getComparator(Field field, Order order) {
+    int fieldPos = field.ordinal();
+    int orderPos = order.ordinal();
+    return (fieldComparators[fieldPos][orderPos] == null) ? (fieldComparators[fieldPos][orderPos] = new FieldComparator(
+        field, order)) : fieldComparators[fieldPos][orderPos];
   }
 
   @Override
@@ -60,5 +75,82 @@ public class Record {
         + host_id + ", " + host_name + ", " + ip_address + ", "
         + operative_system + ", " + load_avg_1min + ", " + load_avg_5min + ", "
         + load_avg_15min + "\n");
+  }
+
+  public static class FieldComparator implements Comparator<Record> {
+
+    public enum Order {
+      ASC, DES,
+    }
+
+    private Field field;
+    private Order order;
+
+    private FieldComparator(Field field, Order order) {
+      this.field = field;
+      this.order = order;
+    }
+
+    private int compareNumberSequence(String s1, String s2) {
+      String[] sa1 = s1.split("\\.");
+      String[] sa2 = s2.split("\\.");
+      for (int i = 0; i < sa1.length; i++) {
+        int i1 = Integer.valueOf(sa1[i]);
+        int i2 = Integer.valueOf(sa2[i]);
+        if (i1 < i2)
+          return -1;
+        else if (i1 > i2)
+          return 1;
+      }
+      return 0;
+    }
+
+    @Override
+    public int compare(Record o1, Record o2) {
+      if (o1 == o2) {
+        return 0;
+      } else if (o1 == null) {
+        return 1;
+      } else if (o2 == null) {
+        return -1;
+      }
+
+      int ret;
+      switch (field) {
+      case HOST_ID:
+        ret = compareNumberSequence(o1.host_id, o2.host_id);
+        return order == ASC ? ret : ret * -1;
+      case HOST_NAME:
+        ret = o1.host_name.compareTo(o2.host_name);
+        return order == ASC ? ret : ret * -1;
+      case IP_ADDRESS:
+        ret = compareNumberSequence(o1.ip_address, o2.ip_address);
+        return order == ASC ? ret : ret * -1;
+      case LOAD_AVG_15MIN:
+        ret = compareNumberSequence(o1.load_avg_15min, o2.load_avg_15min);
+        return order == ASC ? ret : ret * -1;
+      case LOAD_AVG_1MIN:
+        ret = compareNumberSequence(o1.load_avg_1min, o2.load_avg_1min);
+        return order == ASC ? ret : ret * -1;
+      case LOAD_AVG_5MIN:
+        ret = compareNumberSequence(o1.load_avg_5min, o2.load_avg_5min);
+        return order == ASC ? ret : ret * -1;
+      case OS:
+        ret = o1.operative_system.compareTo(o2.operative_system);
+        return order == ASC ? ret : ret * -1;
+      case SITE_ID:
+        ret = compareNumberSequence(o1.site_id, o2.site_id);
+        return order == ASC ? ret : ret * -1;
+      case SITE_LOCATION:
+        ret = o1.site_location.compareTo(o2.site_location);
+        return order == ASC ? ret : ret * -1;
+      case SITE_NAME:
+        ret = o1.site_name.compareTo(o2.site_name);
+        return order == ASC ? ret : ret * -1;
+      default:
+        throw new IllegalArgumentException("Does not have the Field: " + "\""
+            + field + "\"");
+      }
+    }
   }
 }
