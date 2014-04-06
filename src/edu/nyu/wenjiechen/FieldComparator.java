@@ -4,62 +4,12 @@ import java.util.Comparator;
 import static edu.nyu.wenjiechen.Order.*;
 
 public final class FieldComparator implements Comparator<Record> {
-  public static final Comparator<Record> SITE_ID = new SiteId();
-  public static final Comparator<Record> SITE_ID_DES = new SiteIdDes();
-  public static final Comparator<Record> SITE_NAME = new SiteName();
-  public static final Comparator<Record> SITE_NAME_DES = new SiteNameDes();
-
   private Field field;
   private Order order;
 
   public FieldComparator(Field field, Order order) {
     this.field = field;
     this.order = order;
-  }
-
-  // public static final Comparator<Record> SITE_LOCATION = new ;
-  // public static final Comparator<Record> SITE_LOCATION_DES = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-  // public static final Comparator<Record> = new ;
-
-  private static class SiteId implements Comparator<Record> {
-    @Override
-    public int compare(Record arg0, Record arg1) {
-      return arg0.site_id.compareTo(arg1.site_id);
-    }
-  }
-
-  private static class SiteIdDes implements Comparator<Record> {
-    @Override
-    public int compare(Record arg0, Record arg1) {
-      return SITE_ID.compare(arg0, arg1) * -1;
-    }
-  }
-
-  private static class SiteName implements Comparator<Record> {
-    @Override
-    public int compare(Record arg0, Record arg1) {
-      return arg0.site_id.compareTo(arg1.site_id);
-    }
-  }
-
-  private static class SiteNameDes implements Comparator<Record> {
-    @Override
-    public int compare(Record arg0, Record arg1) {
-      return arg0.site_id.compareTo(arg1.site_id) * -1;
-    }
   }
 
   @Override
@@ -73,6 +23,7 @@ public final class FieldComparator implements Comparator<Record> {
       ret = o1.host_name.compareTo(o2.host_name);
       return order == ASC ? ret : ret * -1;
     case IP_ADDRESS:
+      // WRONG!!!
       ret = o1.ip_address.compareTo(o2.ip_address);
       return order == ASC ? ret : ret * -1;
     case LOAD_AVG_15MIN:
@@ -100,11 +51,4 @@ public final class FieldComparator implements Comparator<Record> {
       return Integer.MIN_VALUE;
     }
   }
-  // private static class SiteName implements Comparator<Record> {
-  // @Override
-  // public int compare(Record arg0, Record arg1) {
-  // return arg0.site_id.compareTo(arg1.site_id);
-  // }
-  // }
-
 }

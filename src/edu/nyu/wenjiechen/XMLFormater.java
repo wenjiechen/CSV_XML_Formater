@@ -75,35 +75,6 @@ public class XMLFormater implements IFormater {
 
   }
 
-  private Comparator<Record> getComparator(Field field, Order order) {
-    switch (field) {
-    case HOST_ID:
-      break;
-    case HOST_NAME:
-      break;
-    case IP_ADDRESS:
-      break;
-    case LOAD_AVG_15MIN:
-      break;
-    case LOAD_AVG_1MIN:
-      break;
-    case LOAD_AVG_5MIN:
-      break;
-    case OS:
-      break;
-    case SITE_ID:
-      return order == ASC ? FieldComparator.SITE_ID
-          : FieldComparator.SITE_ID_DES;
-    case SITE_LOCATION:
-      break;
-    case SITE_NAME:
-      break;
-    default:
-      break;
-
-    }
-  }
-
   @Override
   public void sorter(FieldComparator fc) {
     Collections.sort(records, fc);
