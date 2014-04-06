@@ -1,6 +1,6 @@
 package edu.nyu.wenjiechen;
 
-import static edu.nyu.wenjiechen.FieldName.*;
+import static edu.nyu.wenjiechen.Field.*;
 
 public class Record {
   public final String site_id;
@@ -25,6 +25,12 @@ public class Record {
     load_avg_1min = fields[LOAD_AVG_1MIN.ordinal()];
     load_avg_5min = fields[LOAD_AVG_5MIN.ordinal()];
     load_avg_15min = fields[LOAD_AVG_15MIN.ordinal()];
+  }
 
+  public String toString() {
+    return new String(site_id + ", " + site_name + ", " + site_location + ", "
+        + host_id + ", " + host_name + ", " + ip_address + ", "
+        + operative_system + ", " + load_avg_1min + ", " + load_avg_5min + ", "
+        + load_avg_15min +"\n");
   }
 }
