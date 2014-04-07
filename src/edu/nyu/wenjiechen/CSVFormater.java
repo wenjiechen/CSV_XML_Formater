@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,31 +51,19 @@ public class CSVFormater implements IFormater {
         ex.printStackTrace();
       }
     }
-    System.out.println(records);
     return this;
   }
 
   @Override
   public IFormater filter(Field field, String value)
       throws IllegalArgumentException {
-    if (Arrays.asList(Field.values()).contains(field) == false) {
-      throw new IllegalArgumentException("Does not have the Field: " + "\""
-          + field + "\"");
-    }
-
-    for (Iterator<Record> it = records.iterator(); it.hasNext();) {
-      Record record = it.next();
-      if (!record.getFieldValue(field).equals(value))
-        it.remove();
-    }
+    FilterSorter.filter(records, field, value);
     return this;
   }
 
   @Override
   public IFormater sort(List<FieldComparator> comparators) {
-    for (Record.FieldComparator comparator : comparators) {
-      Collections.sort(records, comparator);
-    }
+    FilterSorter.sort(records, comparators);
     return this;
   }
 
@@ -129,6 +114,7 @@ public class CSVFormater implements IFormater {
 
     try {
       FileWriter fileWriter = new FileWriter(outputPath);
+      // auto indent format
       OutputFormat prettyFormater = OutputFormat.createPrettyPrint();
       XMLWriter xmlWriter = new XMLWriter(fileWriter, prettyFormater);
       xmlWriter.write(doc);

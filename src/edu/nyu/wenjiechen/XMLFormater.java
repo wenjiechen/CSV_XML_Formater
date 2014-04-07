@@ -4,9 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,16 +65,13 @@ public class XMLFormater implements IFormater {
   @Override
   public IFormater filter(Field field, String value)
       throws IllegalArgumentException {
-    if (Arrays.asList(Field.values()).contains(field) == false) {
-      throw new IllegalArgumentException("Does not have the Field: " + "\""
-          + field + "\"");
-    }
+    FilterSorter.filter(records, field, value);
+    return this;
+  }
 
-    for (Iterator<Record> it = records.iterator(); it.hasNext();) {
-      Record record = it.next();
-      if (!record.getFieldValue(field).equals(value))
-        it.remove();
-    }
+  @Override
+  public IFormater sort(List<FieldComparator> comparators) {
+    FilterSorter.sort(records, comparators);
     return this;
   }
 
@@ -127,15 +121,7 @@ public class XMLFormater implements IFormater {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    System.out.println("output successfully!");
-  }
-
-  @Override
-  public IFormater sort(List<FieldComparator> comparators) {
-    for (Record.FieldComparator comparator : comparators) {
-      Collections.sort(records, comparator);
-    }
-    return this;
+    System.out.println("XMLFormater output successfully!");
   }
 
 }

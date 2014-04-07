@@ -4,15 +4,16 @@ import static edu.nyu.wenjiechen.Field.*;
 import static edu.nyu.wenjiechen.Format.*;
 import static edu.nyu.wenjiechen.Record.FieldComparator.Order.*;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 import edu.nyu.wenjiechen.Record.FieldComparator;
 
 public class Test {
-
   private static void xmltest() {
-    String path = "coding_exercise\\ipsoft_perf_counters_xml_sample_data.xml";
+    String path = "coding_exercise" + File.separator
+        + "ipsoft_perf_counters_xml_sample_data.xml";
     XMLFormater x = new XMLFormater(path);
     List<FieldComparator> cs1 = Arrays.asList(Record.getComparator(OS, ASC),
         Record.getComparator(HOST_ID, DES));
@@ -29,7 +30,8 @@ public class Test {
   }
 
   private static void csvtest() {
-    String path = "coding_exercise\\ipsoft_perf_counters_csv_sample_data.txt";
+    String path = "coding_exercise" + File.separator
+        + "ipsoft_perf_counters_csv_sample_data.txt";
     CSVFormater c = new CSVFormater(",", path);
     List<FieldComparator> cs1 = Arrays.asList(Record.getComparator(OS, ASC),
         Record.getComparator(HOST_ID, DES));
@@ -40,6 +42,6 @@ public class Test {
 
   public static void main(String[] args) {
     csvtest();
-    // xmltest();
+    xmltest();
   }
 }
