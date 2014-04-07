@@ -37,4 +37,9 @@ public interface IFormater {
    */
   public IFormater sort(List<FieldComparator> comparators);
 
+  /**
+   * 
+   * @return
+   */
+  public List<Record> getRecords();
 }

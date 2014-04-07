@@ -7,7 +7,7 @@ import java.util.List;
 
 import edu.nyu.wenjiechen.Record.FieldComparator;
 
-public class FilterSorter {
+class FilterSorter {
   public static void filter(List<Record> records, Field field, String value)
       throws IllegalArgumentException {
     if (Arrays.asList(Field.values()).contains(field) == false) {

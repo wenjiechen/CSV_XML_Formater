@@ -122,5 +122,12 @@ public class CSVFormater implements IFormater {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    System.out.println("CSVFormater output to: " + outputPath);
+
+  }
+
+  @Override
+  public List<Record> getRecords() {
+    return records;
   }
 }

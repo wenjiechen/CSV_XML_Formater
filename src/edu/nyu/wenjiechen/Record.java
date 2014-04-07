@@ -6,7 +6,7 @@ import static edu.nyu.wenjiechen.Record.FieldComparator.Order.*;
 
 import java.util.Comparator;
 
-public class Record {
+class Record {
   public final String site_id;
   public final String site_name;
   public final String site_location;

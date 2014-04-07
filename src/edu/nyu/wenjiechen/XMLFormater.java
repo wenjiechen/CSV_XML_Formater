@@ -121,7 +121,12 @@ public class XMLFormater implements IFormater {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    System.out.println("XMLFormater output successfully!");
+    System.out.println("XMLFormater output to: " + filePath);
+  }
+
+  @Override
+  public List<Record> getRecords() {
+    return records;
   }
 
 }
