@@ -16,10 +16,11 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import edu.nyu.wenjiechen.Record.FieldComparator;
+
 public class XMLFormater implements IFormater {
   private List<Record> records;
   private String filePath;
-  private String formatedContent;
   private String csvHeader = "site_id, site_name, site_location, host_id, "
       + "host_name, ip_address, operative_system, "
       + "load_avg_1min, load_avg_5min, load_avg_15min";
@@ -89,8 +90,9 @@ public class XMLFormater implements IFormater {
         + record.load_avg_5min + ", " + record.load_avg_15min + newline);
   }
 
-  public IFormater format(Format format) throws IllegalArgumentException {
+  private String format(Format format) {
     StringBuilder sb = new StringBuilder();
+    String formatedContent;
     switch (format) {
     case CSV:
       sb.append(csvHeader + System.getProperty("line.separator"));
@@ -106,11 +108,13 @@ public class XMLFormater implements IFormater {
       throw new IllegalArgumentException("Does not support the format" + "\""
           + format + "\"");
     }
-    return this;
+    return formatedContent;
   }
 
   @Override
-  public void output(String filePath) {
+  public void formatOutput(Format format, String filePath)
+      throws IllegalArgumentException {
+    String formatedContent = format(format);
     File file = new File(filePath);
     BufferedWriter bw;
     try {
@@ -127,15 +131,11 @@ public class XMLFormater implements IFormater {
   }
 
   @Override
-  public IFormater sort(List<Record.FieldComparator> comparators) {
+  public IFormater sort(List<FieldComparator> comparators) {
     for (Record.FieldComparator comparator : comparators) {
       Collections.sort(records, comparator);
     }
     return this;
   }
 
-  @Override
-  public List<Record> getRecords() {
-    return records;
-  }
 }
