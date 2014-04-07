@@ -18,6 +18,13 @@ import org.junit.Test;
 
 import edu.nyu.wenjiechen.Record.FieldComparator;
 
+/**
+ * Test case 1 and Test case 2. Output formatted file into "testOutput"
+ * directory
+ * 
+ * @author Wenjie Chen
+ * 
+ */
 public class XMLFormaterTest {
   private String path;
   private XMLFormater xmlFormater;
@@ -29,6 +36,10 @@ public class XMLFormaterTest {
         + "ipsoft_perf_counters_xml_sample_data.xml";
     xmlFormater = new XMLFormater(path);
     outputDir = "testOutput";
+    File dir = new File(outputDir);
+    if (!dir.exists() && !dir.isDirectory()) {
+      dir.mkdirs();
+    }
   }
 
   @Test

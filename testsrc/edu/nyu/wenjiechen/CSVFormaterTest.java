@@ -16,6 +16,12 @@ import org.junit.Test;
 
 import edu.nyu.wenjiechen.Record.FieldComparator;
 
+/**
+ * Test case 3. Output formatted file into "testOutput" directory
+ * 
+ * @author Wenjie Chen
+ * 
+ */
 public class CSVFormaterTest {
 
   private String path;
@@ -30,6 +36,11 @@ public class CSVFormaterTest {
     delimiter = ",";
     csvFormater = new CSVFormater(delimiter, path);
     outputDir = "testOutput";
+    File dir = new File(outputDir);
+    if (!dir.exists() && !dir.isDirectory()) {
+      dir.mkdirs();
+    }
+
   }
 
   @Test

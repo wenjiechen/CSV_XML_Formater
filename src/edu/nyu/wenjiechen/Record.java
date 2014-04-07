@@ -1,11 +1,28 @@
 package edu.nyu.wenjiechen;
 
-import edu.nyu.wenjiechen.Record.FieldComparator.Order;
-import static edu.nyu.wenjiechen.Field.*;
-import static edu.nyu.wenjiechen.Record.FieldComparator.Order.*;
+import static edu.nyu.wenjiechen.Field.HOST_ID;
+import static edu.nyu.wenjiechen.Field.HOST_NAME;
+import static edu.nyu.wenjiechen.Field.IP_ADDRESS;
+import static edu.nyu.wenjiechen.Field.LOAD_AVG_15MIN;
+import static edu.nyu.wenjiechen.Field.LOAD_AVG_1MIN;
+import static edu.nyu.wenjiechen.Field.LOAD_AVG_5MIN;
+import static edu.nyu.wenjiechen.Field.OS;
+import static edu.nyu.wenjiechen.Field.SITE_ID;
+import static edu.nyu.wenjiechen.Field.SITE_LOCATION;
+import static edu.nyu.wenjiechen.Field.SITE_NAME;
+import static edu.nyu.wenjiechen.Record.FieldComparator.Order.ASC;
 
 import java.util.Comparator;
 
+import edu.nyu.wenjiechen.Record.FieldComparator.Order;
+
+/**
+ * Record Objects are used to store the data parsed by IFormater. Provides
+ * comparator of all fields in ASCENDING or DESCENDING order.
+ * 
+ * @author Wenjie Chen
+ * 
+ */
 class Record {
   public final String site_id;
   public final String site_name;
@@ -31,6 +48,11 @@ class Record {
     load_avg_15min = fields[LOAD_AVG_15MIN.ordinal()];
   }
 
+  /**
+   * 
+   * @param field
+   * @return value of the field
+   */
   public String getFieldValue(Field field) {
     switch (field) {
     case HOST_ID:
@@ -62,6 +84,14 @@ class Record {
   private static FieldComparator[][] fieldComparators = new FieldComparator[Field
       .values().length][Order.values().length];
 
+  /**
+   * 
+   * @param field
+   *          need to be sorted
+   * @param order
+   *          sort the field in the indicated order
+   * @return FieldComparator
+   */
   public static FieldComparator getComparator(Field field, Order order) {
     int fieldPos = field.ordinal();
     int orderPos = order.ordinal();
@@ -77,8 +107,19 @@ class Record {
         + load_avg_15min + "\n");
   }
 
+  /**
+   * 
+   * @author Wenjie Chen
+   * 
+   */
   public static class FieldComparator implements Comparator<Record> {
 
+    /**
+     * Indicate ASCENDING or DESCENDING order
+     * 
+     * @author Wenjie Chen
+     * 
+     */
     public enum Order {
       ASC, DES,
     }

@@ -15,6 +15,12 @@ import org.dom4j.io.SAXReader;
 
 import edu.nyu.wenjiechen.Record.FieldComparator;
 
+/**
+ * Read XML file and convert to CSV output file
+ * 
+ * @author Wenjie Chen
+ * 
+ */
 public class XMLFormater implements IFormater {
   private List<Record> records;
   private String filePath;

@@ -16,6 +16,12 @@ import org.dom4j.io.XMLWriter;
 
 import edu.nyu.wenjiechen.Record.FieldComparator;
 
+/**
+ * Read CSV file and convert to XML output file
+ * 
+ * @author Wenjie Chen
+ * 
+ */
 public class CSVFormater implements IFormater {
   private List<Record> records = new LinkedList<Record>();
   private String filePath;
@@ -123,7 +129,6 @@ public class CSVFormater implements IFormater {
       e.printStackTrace();
     }
     System.out.println("CSVFormater output to: " + outputPath);
-
   }
 
   @Override
